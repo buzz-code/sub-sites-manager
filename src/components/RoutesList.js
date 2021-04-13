@@ -1,35 +1,35 @@
 import React, { useState } from "react";
 import { useList } from "react-firebase-hooks/database";
-import TutorialDataService from "../services/TutorialService";
-import Tutorial from "./Tutorial";
+import RouteDataService from "../services/RouteService";
+import Route from "./Route";
 
-const TutorialsList = () => {
-    const [currentTutorial, setCurrentTutorial] = useState(null);
+const RoutesList = () => {
+    const [currentRoute, setCurrentRoute] = useState(null);
     const [currentIndex, setCurrentIndex] = useState(-1);
 
     /* use react-firebase-hooks */
-    const [tutorials, loading, error] = useList(TutorialDataService.getAll());
+    const [routes, loading, error] = useList(RouteDataService.getAll());
 
     const refreshList = () => {
-        setCurrentTutorial(null);
+        setCurrentRoute(null);
         setCurrentIndex(-1);
     };
 
-    const setActiveTutorial = (tutorial, index) => {
-        const { title, description, published } = tutorial.val();
+    const setActiveRoute = (route, index) => {
+        const { path, description, active } = route.val();
 
-        setCurrentTutorial({
-            key: tutorial.key,
-            title,
+        setCurrentRoute({
+            key: route.key,
+            path,
             description,
-            published,
+            active,
         });
 
         setCurrentIndex(index);
     };
 
-    const removeAllTutorials = () => {
-        TutorialDataService.removeAll()
+    const removeAllRoutes = () => {
+        RouteDataService.removeAll()
             .then(() => {
                 refreshList();
             })
@@ -41,38 +41,38 @@ const TutorialsList = () => {
     return (
         <div className="list row">
             <div className="col-md-6">
-                <h4>Tutorials List</h4>
+                <h4>Routes List</h4>
 
                 {error && <strong>Error: {error}</strong>}
                 {loading && <span>Loading...</span>}
                 <ul className="list-group">
                     {!loading &&
-                        tutorials &&
-                        tutorials.map((tutorial, index) => (
+                        routes &&
+                        routes.map((route, index) => (
                             <li
                                 className={"list-group-item " + (index === currentIndex ? "active" : "")}
-                                onClick={() => setActiveTutorial(tutorial, index)}
+                                onClick={() => setActiveRoute(route, index)}
                                 key={index}
                             >
-                                {tutorial.val().title}
+                                {route.val().path}
                             </li>
                         ))}
                 </ul>
 
                 <button
                     className="m-3 btn btn-sm btn-danger"
-                    onClick={removeAllTutorials}
+                    onClick={removeAllRoutes}
                 >
                     Remove All
         </button>
             </div>
             <div className="col-md-6">
-                {currentTutorial ? (
-                    <Tutorial tutorial={currentTutorial} refreshList={refreshList} />
+                {currentRoute ? (
+                    <Route route={currentRoute} refreshList={refreshList} />
                 ) : (
                     <div>
                         <br />
-                        <p>Please click on a Tutorial...</p>
+                        <p>Please click on a Route...</p>
                     </div>
                 )}
             </div>
@@ -80,4 +80,4 @@ const TutorialsList = () => {
     );
 };
 
-export default TutorialsList;
+export default RoutesList;

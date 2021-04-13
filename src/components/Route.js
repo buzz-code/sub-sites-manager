@@ -1,31 +1,31 @@
 import React, { useState } from "react";
-import TutorialDataService from "../services/TutorialService";
+import RouteDataService from "../services/RouteService";
 
-const Tutorial = (props) => {
-    const initialTutorialState = {
+const Route = (props) => {
+    const initialRouteState = {
         key: null,
-        title: "",
+        path: "",
         description: "",
-        published: false,
+        active: false,
     };
-    const [currentTutorial, setCurrentTutorial] = useState(initialTutorialState);
+    const [currentRoute, setCurrentRoute] = useState(initialRouteState);
     const [message, setMessage] = useState("");
 
-    const { tutorial } = props;
-    if (currentTutorial.key !== tutorial.key) {
-        setCurrentTutorial(tutorial);
+    const { route } = props;
+    if (currentRoute.key !== route.key) {
+        setCurrentRoute(route);
         setMessage("");
     }
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
-        setCurrentTutorial({ ...currentTutorial, [name]: value });
+        setCurrentRoute({ ...currentRoute, [name]: value });
     };
 
-    const updatePublished = (status) => {
-        TutorialDataService.update(currentTutorial.key, { published: status })
+    const updateActive = (status) => {
+        RouteDataService.update(currentRoute.key, { active: status })
             .then(() => {
-                setCurrentTutorial({ ...currentTutorial, published: status });
+                setCurrentRoute({ ...currentRoute, active: status });
                 setMessage("The status was updated successfully!");
             })
             .catch((e) => {
@@ -33,23 +33,23 @@ const Tutorial = (props) => {
             });
     };
 
-    const updateTutorial = () => {
+    const updateRoute = () => {
         const data = {
-            title: currentTutorial.title,
-            description: currentTutorial.description,
+            path: currentRoute.path,
+            description: currentRoute.description,
         };
 
-        TutorialDataService.update(currentTutorial.key, data)
+        RouteDataService.update(currentRoute.key, data)
             .then(() => {
-                setMessage("The tutorial was updated successfully!");
+                setMessage("The route was updated successfully!");
             })
             .catch((e) => {
                 console.log(e);
             });
     };
 
-    const deleteTutorial = () => {
-        TutorialDataService.remove(currentTutorial.key)
+    const deleteRoute = () => {
+        RouteDataService.remove(currentRoute.key)
             .then(() => {
                 props.refreshList();
             })
@@ -58,20 +58,24 @@ const Tutorial = (props) => {
             });
     };
 
+    const navigateToApp = () => {
+        window.open(currentRoute.path);
+    };
+
     return (
         <div>
-            {currentTutorial ? (
+            {currentRoute ? (
                 <div className="edit-form">
-                    <h4>Tutorial</h4>
+                    <h4>Route</h4>
                     <form>
                         <div className="form-group">
-                            <label htmlFor="title">Title</label>
+                            <label htmlFor="path">Path</label>
                             <input
                                 type="text"
                                 className="form-control"
-                                id="title"
-                                name="title"
-                                value={currentTutorial.title}
+                                id="path"
+                                name="path"
+                                value={currentRoute.path}
                                 onChange={handleInputChange}
                             />
                         </div>
@@ -82,7 +86,7 @@ const Tutorial = (props) => {
                                 className="form-control"
                                 id="description"
                                 name="description"
-                                value={currentTutorial.description}
+                                value={currentRoute.description}
                                 onChange={handleInputChange}
                             />
                         </div>
@@ -91,47 +95,53 @@ const Tutorial = (props) => {
                             <label>
                                 <strong>Status:</strong>
                             </label>
-                            {currentTutorial.published ? "Published" : "Pending"}
+                            {' '}
+                            {currentRoute.active ? "Active" : "UnActive"}
                         </div>
                     </form>
 
-                    {currentTutorial.published ? (
+                    {currentRoute.active ? (
                         <button
                             className="badge badge-primary mr-2"
-                            onClick={() => updatePublished(false)}
+                            onClick={() => updateActive(false)}
                         >
-                            UnPublish
+                            UnActivate
                         </button>
                     ) : (
                         <button
                             className="badge badge-primary mr-2"
-                            onClick={() => updatePublished(true)}
+                            onClick={() => updateActive(true)}
                         >
-                            Publish
+                            Activate
                         </button>
                     )}
 
-                    <button className="badge badge-danger mr-2" onClick={deleteTutorial}>
+                    <button className="badge badge-danger mr-2" onClick={deleteRoute}>
                         Delete
-          </button>
+                    </button>
 
                     <button
                         type="submit"
-                        className="badge badge-success"
-                        onClick={updateTutorial}
+                        className="badge badge-success mr-2"
+                        onClick={updateRoute}
                     >
                         Update
                     </button>
+                    
+                    <button className="badge badge-info" onClick={navigateToApp}>
+                        Open App
+                    </button>
+
                     <p>{message}</p>
                 </div>
             ) : (
                 <div>
                     <br />
-                    <p>Please click on a Tutorial...</p>
+                    <p>Please click on a Route...</p>
                 </div>
             )}
         </div>
     );
 };
 
-export default Tutorial;
+export default Route;

@@ -1,28 +1,28 @@
 import React, { useState } from "react";
-import TutorialDataService from "../services/TutorialService";
+import RouteDataService from "../services/RouteService";
 
-const AddTutorial = () => {
-    const initialTutorialState = {
-        title: "",
+const AddRoute = () => {
+    const initialRouteState = {
+        path: "",
         description: "",
-        published: false
+        active: false
     };
-    const [tutorial, setTutorial] = useState(initialTutorialState);
+    const [route, setRoute] = useState(initialRouteState);
     const [submitted, setSubmitted] = useState(false);
 
     const handleInputChange = event => {
         const { name, value } = event.target;
-        setTutorial({ ...tutorial, [name]: value });
+        setRoute({ ...route, [name]: value });
     };
 
-    const saveTutorial = () => {
+    const saveRoute = () => {
         var data = {
-            title: tutorial.title,
-            description: tutorial.description,
-            published: false
+            path: route.path,
+            description: route.description,
+            active: false
         };
 
-        TutorialDataService.create(data)
+        RouteDataService.create(data)
             .then(() => {
                 setSubmitted(true);
             })
@@ -31,8 +31,8 @@ const AddTutorial = () => {
             });
     };
 
-    const newTutorial = () => {
-        setTutorial(initialTutorialState);
+    const newRoute = () => {
+        setRoute(initialRouteState);
         setSubmitted(false);
     };
 
@@ -41,22 +41,22 @@ const AddTutorial = () => {
             {submitted ? (
                 <div>
                     <h4>You submitted successfully!</h4>
-                    <button className="btn btn-success" onClick={newTutorial}>
+                    <button className="btn btn-success" onClick={newRoute}>
                         Add
-          </button>
+                    </button>
                 </div>
             ) : (
                 <div>
                     <div className="form-group">
-                        <label htmlFor="title">Title</label>
+                        <label htmlFor="path">Path</label>
                         <input
                             type="text"
                             className="form-control"
-                            id="title"
+                            id="path"
                             required
-                            value={tutorial.title}
+                            value={route.path}
                             onChange={handleInputChange}
-                            name="title"
+                            name="path"
                         />
                     </div>
 
@@ -67,13 +67,13 @@ const AddTutorial = () => {
                             className="form-control"
                             id="description"
                             required
-                            value={tutorial.description}
+                            value={route.description}
                             onChange={handleInputChange}
                             name="description"
                         />
                     </div>
 
-                    <button onClick={saveTutorial} className="btn btn-success">
+                    <button onClick={saveRoute} className="btn btn-success">
                         Submit
                     </button>
                 </div>
@@ -82,4 +82,4 @@ const AddTutorial = () => {
     );
 };
 
-export default AddTutorial;
+export default AddRoute;

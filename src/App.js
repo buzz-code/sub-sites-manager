@@ -3,35 +3,35 @@ import { Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
-import AddTutorial from "./components/AddTutorial";
-import TutorialsList from "./components/TutorialsList";
+import AddRoute from "./components/AddRoute";
+import RoutesList from "./components/RoutesList";
 
 const App = () => {
   return (
     <div>
       <nav className="navbar navbar-expand navbar-dark bg-dark">
-        <a href="/tutorials" className="navbar-brand">
-          bezKoder
+        <a href="/routes" className="navbar-brand">
+          SubRoutesManager
           </a>
         <div className="navbar-nav mr-auto">
           <li className="nav-item">
-            <Link to={"/tutorials"} className="nav-link">
-              Tutorials
-              </Link>
+            <Link to={"/routes"} className="nav-link">
+              Routes
+            </Link>
           </li>
           <li className="nav-item">
             <Link to={"/add"} className="nav-link">
               Add
-              </Link>
+            </Link>
           </li>
         </div>
       </nav>
 
       <div className="container mt-3">
-        <h2>React Firebase Database CRUD</h2>
+        <h2>Sub Routes Manager</h2>
         <Switch>
-          <Route exact path={["/", "/tutorials"]} component={TutorialsList} />
-          <Route exact path="/add" component={AddTutorial} />
+          <Route exact path={["/", "/routes"]} component={RoutesList} />
+          <Route exact path="/add" component={AddRoute} />
         </Switch>
       </div>
     </div>
