@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
@@ -7,6 +7,10 @@ import AddRoute from "./components/AddRoute";
 import RoutesList from "./components/RoutesList";
 
 const App = () => {
+  if (!window.location.search.includes('auth=true')) {
+    window.location.href = '/listen-report';
+  }
+
   return (
     <div>
       <nav className="navbar navbar-expand navbar-dark bg-dark">
