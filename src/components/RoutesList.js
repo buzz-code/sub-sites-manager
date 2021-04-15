@@ -59,12 +59,12 @@ const RoutesList = () => {
                         ))}
                 </ul>
 
-                <button
+                {/* <button
                     className="m-3 btn btn-sm btn-danger"
                     onClick={removeAllRoutes}
                 >
                     Remove All
-        </button>
+                </button> */}
             </div>
             <div className="col-md-6">
                 {currentRoute ? (
