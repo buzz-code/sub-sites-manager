@@ -17,8 +17,8 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           username: ${{ secrets.USERNAME }}
           script: |
-            cd ~/sub-routes-manager
+            cd ~/sub-sites-manager
             git pull origin master
             npm install --production
             npm run build
-            pm2 restart sub-routes-manager
+          pm2 restart sub-sites-manager

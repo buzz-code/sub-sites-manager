@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'sub-routes-manager',
+      name: 'sub-sites-manager',
       script: "serve",
       env: {
         PM2_SERVE_PATH: 'build',
